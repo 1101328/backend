@@ -25,7 +25,7 @@ class IUserRepository(metaclass=ABCMeta):
         self, 
         page: int = 1,
         items_per_page: int = 10, 
-    ) -> Tuple[int, List[UserV0]]:
+    ) -> tuple[int, List[UserV0]]:
         raise NotImplementedError
 
     @abstractmethod

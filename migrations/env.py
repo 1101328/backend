@@ -4,7 +4,8 @@ from sqlalchemy import engine_from_config
 from sqlalchemy import pool
 
 from alembic import context
-from user.infra.db_models.user import Base, User
+from user.infra.db_models.user import Base
+target_metadata = Base.metadata
 from user.infra.db_models import user  # ⚠️ 모듈 단위 import
 
 

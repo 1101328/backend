@@ -9,7 +9,6 @@ from user.interface.schemas import UserV0  # ✅ 정확히 여기를 고쳐줘�
 
 
 class UserRepository(IUserRepository):
-
     def save(self, user: UserV0):
         new_user = User(
             id=user.id,
@@ -21,6 +20,7 @@ class UserRepository(IUserRepository):
             updated_at=user.updated_at
         )
         with SessionLocal() as db:
+            db=SessionLocal()
             db.add(new_user)
             db.commit()
 
@@ -28,14 +28,14 @@ class UserRepository(IUserRepository):
         with SessionLocal() as db:
             user = db.query(User).filter(User.email == email).first()
             if not user:
-                raise HTTPException(status_code=422, detail="User not found by email")
+                raise HTTPException(status_code=422)
             return UserV0(**row_to_dict(user))
 
     def find_by_id(self, id: str) -> UserV0:
         with SessionLocal() as db:
             user = db.query(User).filter(User.id == id).first()
             if not user:
-                raise HTTPException(status_code=422, detail="User not found by ID")
+                raise HTTPException(status_code=422)
             return UserV0(**row_to_dict(user))
 
     def update(self, user_vo: UserV0) -> UserV0:
@@ -50,7 +50,7 @@ class UserRepository(IUserRepository):
             user.updated_at = user_vo.updated_at
 
             db.commit()
-            db.refresh(user)  # ✅ 변경사항 반영된 최신 상태로 동기화
+            db.refresh(user) 
 
             return UserV0(**row_to_dict(user))
 

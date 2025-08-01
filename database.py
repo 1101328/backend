@@ -2,10 +2,17 @@
 from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
+from config import get_settings
 
-SQLALCHEMY_DATABASE_URL = "mysql+mysqldb://root:0756@127.0.0.1/crud_practice"
+settings = get_settings()
+
+SQLALCHEMY_DATABASE_URL = (
+    "mysql+mysqldb://"
+    f"{settings.database_username}:{settings.database_password}"
+    "@127.0.0.1/fastapi-ca"
+)
 engine = create_engine(SQLALCHEMY_DATABASE_URL)
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-class Base(DeclarativeBase):  # ✅ 핵심 수정!
+class Base(DeclarativeBase):
     pass
